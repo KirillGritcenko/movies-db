@@ -11,3 +11,15 @@ function enqueue_assets() {
 }
 
 add_action( 'wp_enqueue_scripts', 'enqueue_assets' );
+
+function register_movies_post_type() {
+	$args = [
+		'public'      => true,
+		'label'       => __( 'Movies', MOVIES_DB_TEXT_DOMAIN ),
+		'has_archive' => true,
+	];
+
+	register_post_type( 'movie', $args );
+}
+
+add_action( 'init', 'register_movies_post_type' );
