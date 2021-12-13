@@ -12,11 +12,6 @@
     }
 }
 
-.container {
-    max-width: 960px;
-}
-
-img {
+.img-fluid {
     width: 100%;
-    height: auto;
 }
