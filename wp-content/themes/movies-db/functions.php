@@ -10,7 +10,7 @@ add_theme_support( 'post-thumbnails' );
 function enqueue_assets() {
 	wp_enqueue_style( 'bootstrap', get_stylesheet_directory_uri() . '/assets/deps/bootstrap/css/bootstrap.min.css', [], MOVIES_DB_VERSION );
 	wp_enqueue_style( 'movies-db-main', get_stylesheet_directory_uri() . '/assets/css/main.css', [], MOVIES_DB_VERSION );
-	wp_enqueue_script( 'bootstrap', get_stylesheet_directory_uri() . '/assets/deps/bootstrap/js/bootstrap.js.css', [], MOVIES_DB_VERSION, true );
+	wp_enqueue_script( 'bootstrap', get_stylesheet_directory_uri() . '/assets/deps/bootstrap/js/bootstrap.min.js', [], MOVIES_DB_VERSION, true );
 }
 
 add_action( 'wp_enqueue_scripts', 'enqueue_assets' );
@@ -137,3 +137,67 @@ function change_excerpt_length( $length ): int {
 }
 
 add_filter( 'excerpt_length', 'change_excerpt_length', 999 );
+
+function register_menus() {
+	register_nav_menus( [
+		'header_menu' => __( 'Header Menu', MOVIES_DB_TEXT_DOMAIN ),
+		'footer_menu' => __( 'Footer Menu', MOVIES_DB_TEXT_DOMAIN ),
+	] );
+}
+
+add_action( 'after_setup_theme', 'register_menus', 0 );
+
+function add_bootstrap_classes_to_menu_item( $classes, $item, $args, $depth ) {
+	$classes[] = 'nav-item';
+
+    if (array_search('menu-item-has-children', $classes)) {
+        $classes[] = 'dropdown';
+    }
+
+	return $classes;
+}
+
+add_filter( 'nav_menu_css_class', 'add_bootstrap_classes_to_menu_item', 10, 4 );
+
+function add_bootstrap_class_to_menu_item_link( $atts, $item, $args, $depth ) {
+	$classes = [
+		'nav-link',
+	];
+
+	if ( array_search( 'current-menu-item', $item->classes ) ) {
+		$classes[] = 'active';
+	}
+
+	if ( $depth > 0 ) {
+		$classes[] = 'dropdown-item';
+	}
+
+	if (array_search('menu-item-has-children', $item->classes)) {
+        $classes[] = 'dropdown-toggle';
+	    $atts['data-bs-toggle'] = 'dropdown';
+    }
+
+	$atts['class'] = implode( ' ', $classes );
+
+	return $atts;
+}
+
+add_filter( 'nav_menu_link_attributes', 'add_bootstrap_class_to_menu_item_link', 10, 4 );
+
+function add_bootstrap_class_to_submenu( $classes ) {
+	$classes[] = 'dropdown-menu dropdown-menu-dark dropdown-menu-macos mx-0 border-0 shadow';
+	return $classes;
+}
+add_filter( 'nav_menu_submenu_css_class', 'add_bootstrap_class_to_submenu' );
+
+function the_movie_runtime( $post_id )
+{
+    $runtime = get_post_meta( $post_id, 'movie_runtime', true );
+
+    if ($runtime) {
+	    $hours = floor($runtime / 60);
+	    $minutes = $runtime % 60;
+
+        echo "{$hours}h {$minutes}m";
+    }
+}
