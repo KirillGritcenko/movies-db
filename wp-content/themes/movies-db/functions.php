@@ -44,26 +44,27 @@ function render_movie_details_meta_box( $post ) {
 	$release_date = get_post_meta( $post->ID, 'movie_release_date', true );
 	$runtime      = get_post_meta( $post->ID, 'movie_runtime', true );
 	?>
-    <table class="form-table">
-        <tbody>
-        <tr>
-            <th scope="row">
-                <label for="movie_release_date"><?php echo __( 'Release date', MOVIES_DB_TEXT_DOMAIN ); ?></label>
-            </th>
-            <td>
-                <input id="movie_release_date" name="movie_release_date" type="number" min="1800" value="<?php echo $release_date; ?>">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                <label for="movie_runtime"><?php echo __( 'Runtime (min)', MOVIES_DB_TEXT_DOMAIN ); ?></label>
-            </th>
-            <td>
-                <input id="movie_runtime" name="movie_runtime" type="number" min="0" value="<?php echo $runtime; ?>">
-            </td>
-        </tr>
-        </tbody>
-    </table>
+	<table class="form-table">
+		<tbody>
+		<tr>
+			<th scope="row">
+				<label for="movie_release_date"><?php echo __( 'Release date', MOVIES_DB_TEXT_DOMAIN ); ?></label>
+			</th>
+			<td>
+				<input id="movie_release_date" name="movie_release_date" type="number" min="1800"
+				       value="<?php echo $release_date; ?>">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<label for="movie_runtime"><?php echo __( 'Runtime (min)', MOVIES_DB_TEXT_DOMAIN ); ?></label>
+			</th>
+			<td>
+				<input id="movie_runtime" name="movie_runtime" type="number" min="0" value="<?php echo $runtime; ?>">
+			</td>
+		</tr>
+		</tbody>
+	</table>
 	<?php
 }
 
@@ -90,26 +91,28 @@ function render_movie_ratings_meta_box( $post ) {
 	$imdb_rating      = get_post_meta( $post->ID, 'movie_imdb_rating', true );
 	$kinopoisk_rating = get_post_meta( $post->ID, 'movie_kinopoisk_rating', true );
 	?>
-    <table class="form-table">
-        <tbody>
-        <tr>
-            <th scope="row">
-                <label for="movie_imdb_rating"><?php echo __( 'IMDB', MOVIES_DB_TEXT_DOMAIN ); ?></label>
-            </th>
-            <td>
-                <input id="movie_imdb_rating" name="movie_imdb_rating" type="number" min="0" max="10" step="0.1" value="<?php echo $imdb_rating; ?>">
-            </td>
-        </tr>
-        <tr>
-            <th scope="row">
-                <label for="movie_kinopoisk_rating"><?php echo __( 'Kinopoisk', MOVIES_DB_TEXT_DOMAIN ); ?></label>
-            </th>
-            <td>
-                <input id="movie_kinopoisk_rating" name="movie_kinopoisk_rating" type="number" min="0" max="10" step="0.1" value="<?php echo $kinopoisk_rating; ?>">
-            </td>
-        </tr>
-        </tbody>
-    </table>
+	<table class="form-table">
+		<tbody>
+		<tr>
+			<th scope="row">
+				<label for="movie_imdb_rating"><?php echo __( 'IMDB', MOVIES_DB_TEXT_DOMAIN ); ?></label>
+			</th>
+			<td>
+				<input id="movie_imdb_rating" name="movie_imdb_rating" type="number" min="0" max="10" step="0.1"
+				       value="<?php echo $imdb_rating; ?>">
+			</td>
+		</tr>
+		<tr>
+			<th scope="row">
+				<label for="movie_kinopoisk_rating"><?php echo __( 'Kinopoisk', MOVIES_DB_TEXT_DOMAIN ); ?></label>
+			</th>
+			<td>
+				<input id="movie_kinopoisk_rating" name="movie_kinopoisk_rating" type="number" min="0" max="10"
+				       step="0.1" value="<?php echo $kinopoisk_rating; ?>">
+			</td>
+		</tr>
+		</tbody>
+	</table>
 	<?php
 }
 
@@ -150,9 +153,9 @@ add_action( 'after_setup_theme', 'register_menus', 0 );
 function add_bootstrap_classes_to_menu_item( $classes, $item, $args, $depth ) {
 	$classes[] = 'nav-item';
 
-    if (array_search('menu-item-has-children', $classes)) {
-        $classes[] = 'dropdown';
-    }
+	if ( array_search( 'menu-item-has-children', $classes ) ) {
+		$classes[] = 'dropdown';
+	}
 
 	return $classes;
 }
@@ -172,10 +175,10 @@ function add_bootstrap_class_to_menu_item_link( $atts, $item, $args, $depth ) {
 		$classes[] = 'dropdown-item';
 	}
 
-	if (array_search('menu-item-has-children', $item->classes)) {
-        $classes[] = 'dropdown-toggle';
-	    $atts['data-bs-toggle'] = 'dropdown';
-    }
+	if ( array_search( 'menu-item-has-children', $item->classes ) ) {
+		$classes[]              = 'dropdown-toggle';
+		$atts['data-bs-toggle'] = 'dropdown';
+	}
 
 	$atts['class'] = implode( ' ', $classes );
 
@@ -186,18 +189,66 @@ add_filter( 'nav_menu_link_attributes', 'add_bootstrap_class_to_menu_item_link',
 
 function add_bootstrap_class_to_submenu( $classes ) {
 	$classes[] = 'dropdown-menu dropdown-menu-dark dropdown-menu-macos mx-0 border-0 shadow';
+
 	return $classes;
 }
+
 add_filter( 'nav_menu_submenu_css_class', 'add_bootstrap_class_to_submenu' );
 
-function the_movie_runtime( $post_id )
-{
-    $runtime = get_post_meta( $post_id, 'movie_runtime', true );
+function the_movie_runtime( $post_id ) {
+	$runtime = get_post_meta( $post_id, 'movie_runtime', true );
 
-    if ($runtime) {
-	    $hours = floor($runtime / 60);
-	    $minutes = $runtime % 60;
+	if ( $runtime ) {
+		$hours   = floor( $runtime / 60 );
+		$minutes = $runtime % 60;
 
-        echo "{$hours}h {$minutes}m";
-    }
+		echo "{$hours}h {$minutes}m";
+	}
 }
+
+function modify_archive_movie_query( WP_Query $query ) {
+	if ( is_admin() || ! $query->is_post_type_archive( 'movie' ) || ! $query->is_main_query() ) {
+		return;
+	}
+
+	$search        = filter_input( INPUT_GET, 'filter_search', FILTER_SANITIZE_STRING );
+	$released_on   = filter_input( INPUT_GET, 'filter_released_on', FILTER_VALIDATE_INT );
+	$rating_over_7 = filter_input( INPUT_GET, 'filter_rating_over_7', FILTER_VALIDATE_BOOLEAN );
+
+	$meta_query = [];
+
+	if ( $search ) {
+		$query->set( 's', $search );
+	}
+
+	if ( $released_on ) {
+		$meta_query[] = [
+			'key'   => 'movie_release_date',
+			'value' => $released_on,
+		];
+	}
+
+	if ( $rating_over_7 ) {
+		$meta_query[] = [
+			'relation' => 'OR',
+			[
+				'key'     => 'movie_imdb_rating',
+				'value'   => 7,
+				'compare' => '>=',
+				'type'    => 'numeric',
+			],
+			[
+				'key'     => 'movie_kinopoisk_rating',
+				'value'   => 7,
+				'compare' => '>=',
+				'type'    => 'numeric',
+			]
+		];
+	}
+
+	if ( $meta_query ) {
+		$query->set( 'meta_query', $meta_query );
+	}
+}
+
+add_action( 'pre_get_posts', 'modify_archive_movie_query' );
