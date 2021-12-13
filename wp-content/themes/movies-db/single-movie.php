@@ -43,7 +43,7 @@
 		</div>
 		<div class="col-md-4">
 			<div class="position-sticky" style="top: 2rem;">
-				Sidebar
+				<?php echo get_template_part( 'template-parts/latest-added-movies' ); ?>
 			</div>
 		</div>
 	</div>
