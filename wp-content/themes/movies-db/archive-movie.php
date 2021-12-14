@@ -9,7 +9,7 @@ get_header();
 			<div class="row">
 				<?php if ( have_posts() ) :
 					while ( have_posts() ) : the_post(); ?>
-						<div class="col-4">
+						<div class="col-4 p-3">
 							<div class="card h-100">
 								<?php the_post_thumbnail( 'large', [
 									'class' => 'img-fluid',
