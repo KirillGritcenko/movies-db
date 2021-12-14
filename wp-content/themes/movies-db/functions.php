@@ -252,3 +252,5 @@ function modify_archive_movie_query( WP_Query $query ) {
 }
 
 add_action( 'pre_get_posts', 'modify_archive_movie_query' );
+
+include 'examples/acf-blocks.php';
