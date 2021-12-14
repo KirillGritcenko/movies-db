@@ -253,4 +253,7 @@ function modify_archive_movie_query( WP_Query $query ) {
 
 add_action( 'pre_get_posts', 'modify_archive_movie_query' );
 
-include 'examples/acf-blocks.php';
+//include 'examples/acf-blocks.php';
+
+include 'modules/acf-blocks/class-acf-blocks.php';
+new \NIX_Movies_DB\Modules\ACF_Blocks\ACF_Blocks();
