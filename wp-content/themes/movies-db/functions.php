@@ -1,12 +1,5 @@
 <?php
 
-$cur_theme = wp_get_theme();
-
-define( 'MOVIES_DB_VERSION', $cur_theme->get( 'Version' ) );
-define( 'MOVIES_DB_TEXT_DOMAIN', $cur_theme->get( 'TextDomain' ) );
-
-add_theme_support( 'post-thumbnails' );
-
 function enqueue_assets() {
 	wp_enqueue_style( 'bootstrap', get_stylesheet_directory_uri() . '/assets/deps/bootstrap/css/bootstrap.min.css', [], MOVIES_DB_VERSION );
 	wp_enqueue_style( 'movies-db-main', get_stylesheet_directory_uri() . '/assets/css/main.css', [], MOVIES_DB_VERSION );
@@ -259,3 +252,5 @@ new \NIX_Movies_DB\Modules\Theme\Theme();
 
 include 'modules/acf-blocks/class-acf-blocks.php';
 new \NIX_Movies_DB\Modules\ACF_Blocks\ACF_Blocks();
+
+include 'modules/tmdb-api/class-tmdb-api.php';
