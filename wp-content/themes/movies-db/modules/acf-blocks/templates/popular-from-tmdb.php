@@ -1,6 +1,6 @@
 <?php
 
-$moviesAPI = new TMDB_API( '28caeefed48fdba75c70a3440d56221e' );
+$moviesAPI = new TMDB_API( get_field( 'tmdb_api_key', 'option' ) );
 $popular   = $moviesAPI->popular();
 ?>
 
